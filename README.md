@@ -1,0 +1,1 @@
+I want to live-transcribe meetings by running local text-to-speech AI models.
