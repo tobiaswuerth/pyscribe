@@ -7,6 +7,7 @@ import datetime
 import re
 import atexit
 import time
+import numpy as np
 
 from .config import config
 
@@ -70,6 +71,9 @@ class Recorder(mp.Process):
         self.wav = None
         self.file_counter = -1
         self.recording_started_at = None
+        self.noise_levels = []
+        self.noise_timestamps = []
+        self.silence_started_at = None
 
     @property
     def filename(self):
@@ -90,17 +94,73 @@ class Recorder(mp.Process):
             final_name = self.filename.replace(".tmp", "")
             os.rename(self.filename, final_name)
 
+    def get_audio_level(self, audio_data):
+        audio_array = np.frombuffer(audio_data, dtype=np.int16)
+        if self.device["maxInputChannels"] > 1:
+            audio_array = audio_array.reshape(-1, self.device["maxInputChannels"])
+            magnitude = np.mean(np.abs(audio_array), axis=1) + 1e-10
+        else:
+            magnitude = np.abs(audio_array) + 1e-10
+        
+        # Calculate RMS of the magnitude
+        return np.sqrt(np.mean(np.square(magnitude)))
+
+    def is_silent(self, current_level):
+        if len(self.noise_levels) < 10:
+            # Need at least some data to make a judgment
+            return False 
+
+        threshold = np.percentile(self.noise_levels, config.consider_noise_silent_percentile)
+        return current_level <= threshold
+
+    def track_noise(self, audio_data, current_time):
+        if not config.split_on_silence:
+            return None
+        
+        while (self.noise_timestamps and self.noise_timestamps[0] < current_time - config.silence_calibration_window):
+            self.noise_levels.pop(0)
+            self.noise_timestamps.pop(0)
+        
+        current_level = self.get_audio_level(audio_data)
+        self.noise_levels.append(current_level)
+        self.noise_timestamps.append(current_time)
+        return current_level
+
     def audio_stream_callback(self, in_data, frame_count, time_info, status):
+        current_time = time_info["current_time"]
+        
         if self.wav is None:
             self.wav = self.new_wav_file()
-            self.recording_started_at = time_info["current_time"]
+            self.recording_started_at = current_time
 
         self.wav.writeframes(in_data)
+        current_level = self.track_noise(in_data, current_time)
 
-        rec_duration = time_info["current_time"] - self.recording_started_at
-        if rec_duration >= config.segment_duration:
+        rec_duration = current_time - self.recording_started_at
+        if rec_duration < config.segment_duration:
+            return in_data, pyaudio.paContinue
+
+        # segment duration is reached
+        if not config.split_on_silence or rec_duration >= (config.segment_duration + config.hardcut_threshold):
+            print(f"Recording segment {self.file_counter} at {rec_duration:.2f}s")
             self.finalize_wav()
-
+            self.wav = None
+            self.silence_started_at = None
+            return in_data, pyaudio.paContinue
+        
+        # check for silence
+        assert current_level is not None, "Current level should not be None."
+        if self.is_silent(current_level):
+            if self.silence_started_at is None:
+                self.silence_started_at = current_time
+            if current_time - self.silence_started_at >= config.min_silence_duration:
+                self.finalize_wav()
+                self.wav = None
+                self.silence_started_at = None
+            return in_data, pyaudio.paContinue
+        
+        # Reset silence tracking if not silent
+        self.silence_started_at = None
         return in_data, pyaudio.paContinue
 
     def run(self):
@@ -117,7 +177,7 @@ class Recorder(mp.Process):
                     frames_per_buffer=1024,
                     input_device_index=self.device["index"],
                     stream_callback=self.audio_stream_callback,
-                ) as _:
+                ) as stream:
                     while not self.on_exit.is_set():
                         time.sleep(0.1)
 

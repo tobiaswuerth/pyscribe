@@ -3,10 +3,17 @@ save_path: "recordings" # output directory
 default_device: null # set to "devicename" to use a specific device by default
 segment_duration: 300 # in seconds
 
+split_on_silence: true # if true, will try to split on silence
+min_silence_duration: 0.4 # in seconds, minimum silence duration to wait for before splitting
+silence_calibration_window: 30 # in seconds, retrospective window to calibrate against
+consider_noise_silent_percentile: 30 # in percent, if the noise level is below this percentile it will be considered silence
+hardcut_threshold: 60 # in seconds, if (duration of segment) > (segment_duration + hardcut_threshold) it will split regardless of silence
+
 # ======= Transcription Settings =======
 model: "large-v3" # check https://github.com/openai/whisper for available models
 prompt: "The person is a swiss professor teaching online school."
 language: "de"
+
 finish_processing_on_exit: true # if true, will process all recordings before exiting
 combine_on_exit: true # if true, will combine all .wav and .txt into one file before exiting
 remove_after_combine: true # if true, will remove all .wav and .txt files after combining
