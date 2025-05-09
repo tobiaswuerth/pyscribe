@@ -1,0 +1,32 @@
+import traceback
+
+from transcribe import Transcriber
+
+
+def main():
+    try:
+        transcriber = Transcriber(None)
+        transcriber.initialize()
+
+        todo = transcriber.get_files_todo()
+        if not todo:
+            print("No files to transcribe.")
+            return
+
+        for filename in todo:
+            transcriber.process_audio_file(filename)
+            print(f"Processed file: {filename}")
+
+        print("All files processed.")
+
+    except KeyboardInterrupt:
+        print("Interrupted by user.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        traceback.print_exc()
+
+
+if __name__ == "__main__":
+    print("Started main process")
+    main()
+    print("Exiting main process")
