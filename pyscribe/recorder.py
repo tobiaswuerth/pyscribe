@@ -142,7 +142,6 @@ class Recorder(mp.Process):
 
         # segment duration is reached
         if not config.split_on_silence or rec_duration >= (config.segment_duration + config.hardcut_threshold):
-            print(f"Recording segment {self.file_counter} at {rec_duration:.2f}s")
             self.finalize_wav()
             self.wav = None
             self.silence_started_at = None

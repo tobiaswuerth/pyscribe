@@ -32,7 +32,6 @@ class Combinator:
             f for f
             in os.listdir(config.save_path)
             if f.startswith(project)
-            and (f.endswith(".wav") or f.endswith(".txt"))
             and len(f.split("_")) == 5
         ]
 
