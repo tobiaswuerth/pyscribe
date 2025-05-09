@@ -1,6 +1,6 @@
 import traceback
 
-from transcribe import Transcriber
+from pyscribe import Transcriber
 
 
 def main():

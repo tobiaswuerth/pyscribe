@@ -1,7 +1,7 @@
 import multiprocessing as mp
 import traceback
 
-from transcribe import Recorder, Transcriber
+from pyscribe import Recorder, Transcriber
 
 
 def main():

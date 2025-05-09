@@ -1,8 +1,7 @@
-# Audio Transcribe
+# PyScribe
+> A Windows tool for **recording system audio** and **transcribing it** with minimal setup.
 
-A Windows tool for recording system audio and transcribing it with minimal setup.
-
-Audio Transcribe captures audio from Windows loopback devices (system audio/speakers) and uses OpenAI's Whisper model to perform speech recognition locally.
+PyScribe captures audio from Windows loopback devices (system audio/speakers) and uses OpenAI's Whisper model to perform speech recognition locally.
 
 What it can do:
 - Generates `.wav` files from system audio output
@@ -20,7 +19,7 @@ What it can do:
 ## Setup
 
 ```bash
-git clone https://github.com/tobiaswuerth/audio_transcribe.git
+git clone https://github.com/tobiaswuerth/pyscribe.git
 cd audio_transcribe
 py -m venv .venv
 .\.venv\Scripts\activate
