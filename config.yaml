@@ -7,3 +7,4 @@ segment_duration: 60 # in seconds
 model: "large-v3" # check https://github.com/openai/whisper for available models
 prompt: "The person is a swiss professor teaching online school."
 language: "de"
+finish_processing_on_exit: true # if true, the program will process all recordings before exiting

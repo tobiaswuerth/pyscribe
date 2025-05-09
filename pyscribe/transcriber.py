@@ -49,23 +49,39 @@ class Transcriber(mp.Process):
 
         print(f"🗣: {transcription}")
 
+    def process_directory(self) -> bool:
+        todo = self.get_files_todo()
+        if not todo:
+            return False
+
+        for audio_file in todo:
+            self.process_audio_file(audio_file)
+        return True
+
     def run(self):
         try:
             self.initialize()
 
             while not self.on_exit.is_set():
-                todo = self.get_files_todo()
-                if not todo:
+                did_work = self.process_directory()
+                if not did_work:
                     time.sleep(1)
-                    continue
-
-                for audio_file in todo:
-                    if self.on_exit.is_set():
-                        break
-                    self.process_audio_file(audio_file)
 
         except KeyboardInterrupt:
             print("Interrupted by user.")
+            if config.finish_processing_on_exit:
+                print("Finishing processing remaining files...")
+                _itercount = 0
+                while True:
+                    tmp_files = [f for f in os.listdir(config.save_path) if f.endswith(".tmp")]
+                    if not tmp_files:
+                        break
+                    time.sleep(.5)
+                    _itercount += 1
+                    if _itercount > 10:
+                        print("Timeout waiting for tmp files to finish.")
+                        return
+                self.process_directory()
         except Exception as e:
             print(f"Error in Transcriber: {e}")
             traceback.print_exc()
