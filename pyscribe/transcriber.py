@@ -7,6 +7,7 @@ import os
 import time
 
 from .config import config
+from .combinator import Combinator
 
 
 class Transcriber(mp.Process):
@@ -30,7 +31,7 @@ class Transcriber(mp.Process):
             fp16=self.device.type == "cuda",
             initial_prompt=config.prompt,
             # verbose=False, # show progress bar
-        )["text"]
+        )["text"].strip()
 
     def get_files_todo(self) -> list[str]:
         files = os.listdir(config.save_path)
@@ -82,6 +83,9 @@ class Transcriber(mp.Process):
                         print("Timeout waiting for tmp files to finish.")
                         return
                 self.process_directory()
+            if config.combine_on_exit:
+                print("Combining files...")
+                Combinator.combine_projects()
         except Exception as e:
             print(f"Error in Transcriber: {e}")
             traceback.print_exc()

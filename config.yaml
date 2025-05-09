@@ -1,10 +1,11 @@
 # ========= Recording Settings =========
 save_path: "recordings" # output directory
 default_device: null # set to "devicename" to use a specific device by default
-segment_duration: 60 # in seconds
+segment_duration: 300 # in seconds
 
 # ======= Transcription Settings =======
 model: "large-v3" # check https://github.com/openai/whisper for available models
 prompt: "The person is a swiss professor teaching online school."
 language: "de"
-finish_processing_on_exit: true # if true, the program will process all recordings before exiting
+finish_processing_on_exit: true # if true, will process all recordings before exiting
+combine_on_exit: true # if true, will combine all .wav and .txt into one file before exiting
