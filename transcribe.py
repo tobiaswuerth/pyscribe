@@ -18,7 +18,6 @@ def main():
             print(f"Processed file: {filename}")
 
         print("All files processed.")
-
     except KeyboardInterrupt:
         print("Interrupted by user.")
     except Exception as e:
@@ -27,6 +26,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print("Started main process")
     main()
-    print("Exiting main process")

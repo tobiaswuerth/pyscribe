@@ -1,9 +1,9 @@
-# Whisper Model
-model: "large-v3"
+# ========= Recording Settings =========
+save_path: "recordings" # output directory
+default_device: null # set to "devicename" to use a specific device by default
+segment_duration: 60 # in seconds
+
+# ======= Transcription Settings =======
+model: "large-v3" # check https://github.com/openai/whisper for available models
 prompt: "The person is a swiss professor teaching online school."
 language: "de"
-
-# Recording Settings
-save_path: "recordings"
-default_device: "Echo Cancelling Speakerphone (PHL 49B2U6900CH)"
-segment_duration: 60

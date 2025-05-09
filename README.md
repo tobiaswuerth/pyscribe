@@ -11,3 +11,18 @@ python.exe -m pip install --upgrade pip
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128 # if you want to use CUDA on windows instead of CPU
 pip3 install -r .\requirements.txt
 ```
+
+# Usage
+
+1. adjust [config.yaml](config.yaml) if desired.
+2. run `py main.py`
+
+This will start 2 processes:
+1. Recorder
+    - records the configured/selected audio device continuously (until Ctrl+C)
+    - saves the recordings to .wav files of configured segment length (e.g. 60 seconds each)
+2. Transcriber
+    - monitors output directory for unprocessed audio files (`.wav`)
+    - transcribes files and saves transcription to `.wav.txt`
+
+If you have leftover files in the output directory, you can run `py transcribe.py` to just transcribe. 

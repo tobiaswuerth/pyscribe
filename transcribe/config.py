@@ -3,12 +3,12 @@ from typing import NamedTuple
 
 
 class Config(NamedTuple):
-    model: str
-    prompt: str
-    language: str
     save_path: str
     default_device: str
     segment_duration: int
+    model: str
+    prompt: str
+    language: str
 
 
 def load_config() -> Config:
