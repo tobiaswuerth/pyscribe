@@ -7,11 +7,11 @@ What it can do:
 - Transcribes recordings using [OpenAI's Whisper](https://github.com/openai/whisper) model running locally
 - Works without internet connection or API keys
 
-### Use Cases
-- Meeting Documentation - Record and transcribe team meetings, brainstorming sessions, or client calls to create searchable text archives without manual note-taking.
-- Content Creator Workflow - Transcribe podcasts, videos, or lectures automatically to generate subtitles, repurpose content for blog posts, or create searchable libraries.
-- Audio Archive Processing - Convert existing audio recordings into searchable text.
-- Education - Transcribe lectures or educational content from media players.
+## Use Cases
+
+- **Documentation:** Record and transcribe meetings, lectures, or client calls to create searchable text archives without manual note-taking
+- **Content Creation:** Generate subtitles, blog posts, or searchable libraries from podcasts, videos, or educational content
+- **Audio Archives:** Convert existing audio recordings into searchable text for better organization and accessibility
 
 ---
 
@@ -43,8 +43,8 @@ py .\main.py
 
 This starts two processes:
 1. Recorder
-   - Records audio from the configured/selected loopback device (system audio)
-   - Saves recordings as `.wav` files in segments of configured length (default 60 seconds)
+   - Records system audio from the configured/selected loopback device
+   - Saves recordings as `.wav` files in segments of configured length (default 5min)
 
 2. Transcriber
    - Monitors output directory for untranscribed audio files
