@@ -1,5 +1,4 @@
 # PyScribe
-> A Windows tool for **recording system audio** and **transcribing it** with minimal setup.
 
 PyScribe captures audio from Windows loopback devices (system audio/speakers) and uses OpenAI's Whisper model to perform speech recognition locally.
 
