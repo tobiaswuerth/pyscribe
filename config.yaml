@@ -6,4 +6,4 @@ language: "de"
 # Recording Settings
 save_path: "recordings"
 default_device: "Echo Cancelling Speakerphone (PHL 49B2U6900CH)"
-segment_duration: 10
+segment_duration: 60
