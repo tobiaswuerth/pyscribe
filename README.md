@@ -19,7 +19,7 @@ What it can do:
 
 ```bash
 git clone https://github.com/tobiaswuerth/pyscribe.git
-cd audio_transcribe
+cd pyscribe
 py -m venv .venv
 .\.venv\Scripts\activate
 python.exe -m pip install --upgrade pip
