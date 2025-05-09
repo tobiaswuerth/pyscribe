@@ -1,0 +1,3 @@
+model: "large-v3"
+initial_prompt: "The person is a swiss professor teaching online school."
+language: "de"
