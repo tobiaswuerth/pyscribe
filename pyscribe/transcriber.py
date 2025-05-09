@@ -26,10 +26,12 @@ class Transcriber(mp.Process):
     def transcribe(self, audio_path: str) -> str:
         return self.model.transcribe(
             audio_path,
-            language=config.language,
             task="transcribe",
-            fp16=self.device.type == "cuda",
+            language=config.language,
             initial_prompt=config.prompt,
+            fp16=self.device.type == "cuda",
+            best_of=5,
+            beam_size=5,
             # verbose=False, # show progress bar
         )["text"].strip()
 
@@ -74,10 +76,12 @@ class Transcriber(mp.Process):
                 print("Finishing processing remaining files...")
                 _itercount = 0
                 while True:
-                    tmp_files = [f for f in os.listdir(config.save_path) if f.endswith(".tmp")]
+                    tmp_files = [
+                        f for f in os.listdir(config.save_path) if f.endswith(".tmp")
+                    ]
                     if not tmp_files:
                         break
-                    time.sleep(.5)
+                    time.sleep(0.5)
                     _itercount += 1
                     if _itercount > 10:
                         print("Timeout waiting for tmp files to finish.")
