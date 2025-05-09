@@ -4,8 +4,11 @@ from typing import NamedTuple
 
 class Config(NamedTuple):
     model: str
-    initial_prompt: str
+    prompt: str
     language: str
+    save_path: str
+    default_device: str
+    segment_duration: int
 
 
 def load_config() -> Config:

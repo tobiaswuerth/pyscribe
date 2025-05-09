@@ -20,7 +20,7 @@ class TranscriptionService:
             language=config.language,
             task="transcribe",
             fp16=self.device.type == "cuda",
-            initial_prompt=config.initial_prompt,
+            initial_prompt=config.prompt,
             verbose=False,
         )["text"]
 
