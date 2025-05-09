@@ -52,6 +52,15 @@ This starts two processes:
 
 in the end, by default (depending on config), all individual segments of `.wav` and `.txt` files will be combined into one `.wav` and `.txt` file respectively, and the individual segment files are deleted unless otherwise configured.
 
+### Note on Performance
+
+- Recording and transcribing simultaneously works well for most scenarios
+- For highest quality transcription (particularly for longer sessions), consider:
+   1. Recording first (using `py .\record.py`)
+   2. Transcribing afterwards (using `py .\transcribe.py`)
+
+This sequential approach produces better results because the ASR model has more context and complete sentences when processing the entire audio file, resulting in better transcription quality overall.
+
 ### b) Individual Actions
 
 For recording only:
