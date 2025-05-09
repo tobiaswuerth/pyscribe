@@ -62,8 +62,6 @@ For transcription only:
 py .\transcribe.py
 ```
 
-Note: When using `record.py`, it creates a single continuous file rather than segmented recordings. The `transcribe.py` script processes all untranscribed files in the output directory.
-
 ## Technical Notes
 
 - The recorder captures system audio output only (loopback devices), not microphone input

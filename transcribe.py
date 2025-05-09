@@ -6,16 +6,15 @@ from pyscribe import Transcriber
 def main():
     try:
         transcriber = Transcriber(None)
-        transcriber.initialize()
-
         todo = transcriber.get_files_todo()
         if not todo:
             print("No files to transcribe.")
             return
 
+        transcriber.initialize()
         for filename in todo:
+            print(f"Processing file: {filename} ...")
             transcriber.process_audio_file(filename)
-            print(f"Processed file: {filename}")
 
         print("All files processed.")
     except KeyboardInterrupt:

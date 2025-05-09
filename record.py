@@ -1,16 +1,11 @@
 import traceback
 import multiprocessing as mp
 
-from pyscribe import Recorder, config
+from pyscribe import Recorder
 
 
 def main():
     try:
-        global config
-        config = config._replace(
-            segment_duration=86400,  # record one long session, 24h max
-        )
-
         recorder = Recorder(mp.Event())
         recorder.initialize()
 
