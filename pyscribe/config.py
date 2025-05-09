@@ -11,6 +11,7 @@ class Config(NamedTuple):
     language: str
     finish_processing_on_exit: bool
     combine_on_exit: bool
+    remove_after_combine: bool
 
 
 def load_config() -> Config:

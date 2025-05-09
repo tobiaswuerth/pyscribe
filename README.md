@@ -50,6 +50,8 @@ This starts two processes:
    - Monitors output directory for untranscribed audio files
    - Processes files and saves transcription as `.wav.txt`
 
+in the end, by default (depending on config), all individual segments of `.wav` and `.txt` files will be combined into one `.wav` and `.txt` file respectively, and the individual segment files are deleted unless otherwise configured.
+
 ### b) Record or Transcribe individually
 
 For recording only:

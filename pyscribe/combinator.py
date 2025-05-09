@@ -101,16 +101,17 @@ class Combinator:
             return
         print(f'🗸 Verified combined files.')
 
-        # delete original wav files
-        print(f'• Deleting {len(wav_files)} original wav files...', end='\r')
-        for wav_file in wav_files:
-            wav_path = os.path.join(config.save_path, wav_file)
-            os.remove(wav_path)
-        print(f'🗸 Deleted {len(wav_files)} original wav files.')
-            
-        # delete original txt files
-        print(f'• Deleting {len(txt_files)} original txt files...', end='\r')
-        for txt_file in txt_files:
-            txt_path = os.path.join(config.save_path, txt_file)
-            os.remove(txt_path)
-        print(f'🗸 Deleted {len(txt_files)} original txt files.')
+        if config.remove_after_combine:
+            # delete original wav files
+            print(f'• Deleting {len(wav_files)} original wav files...', end='\r')
+            for wav_file in wav_files:
+                wav_path = os.path.join(config.save_path, wav_file)
+                os.remove(wav_path)
+            print(f'🗸 Deleted {len(wav_files)} original wav files.')
+                
+            # delete original txt files
+            print(f'• Deleting {len(txt_files)} original txt files...', end='\r')
+            for txt_file in txt_files:
+                txt_path = os.path.join(config.save_path, txt_file)
+                os.remove(txt_path)
+            print(f'🗸 Deleted {len(txt_files)} original txt files.')

@@ -9,3 +9,4 @@ prompt: "The person is a swiss professor teaching online school."
 language: "de"
 finish_processing_on_exit: true # if true, will process all recordings before exiting
 combine_on_exit: true # if true, will combine all .wav and .txt into one file before exiting
+remove_after_combine: true # if true, will remove all .wav and .txt files after combining
