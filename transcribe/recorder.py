@@ -64,7 +64,7 @@ class Recorder(mp.Process):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         name = re.sub(r"[^a-zA-Z0-9]", "", self.device["name"])
         filename = f"rec_{timestamp}_{name}"
-        filename += "_{counter}_WIP.wav"
+        filename += "_{counter}.wav.tmp"
         self._filename = os.path.join(config.save_path, filename)
 
         self.wav = None
@@ -87,7 +87,7 @@ class Recorder(mp.Process):
         if self.wav:
             self.wav.close()
             self.wav = None
-            final_name = self.filename.replace("_WIP", "")
+            final_name = self.filename.replace(".tmp", "")
             os.rename(self.filename, final_name)
 
     def audio_stream_callback(self, in_data, frame_count, time_info, status):
