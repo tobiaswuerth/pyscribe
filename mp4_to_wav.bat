@@ -1,1 +1,1 @@
-ffmpeg -i video.mp4 -vn -acodec pcm_s16le -ar 44100 -ac 2 audio.wav
+ffmpeg -i video.mp4 -vn -acodec pcm_s16le -ar 16000 -ac 2 audio.wav
