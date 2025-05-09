@@ -52,7 +52,7 @@ This starts two processes:
 
 in the end, by default (depending on config), all individual segments of `.wav` and `.txt` files will be combined into one `.wav` and `.txt` file respectively, and the individual segment files are deleted unless otherwise configured.
 
-### b) Record or Transcribe individually
+### b) Individual Actions
 
 For recording only:
 ```bash
@@ -63,6 +63,12 @@ For transcription only:
 ```bash
 py .\transcribe.py
 ```
+
+For combining of individual files only:
+```bash
+py .\combine.py
+```
+
 
 ## Technical Notes
 
