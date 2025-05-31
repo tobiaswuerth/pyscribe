@@ -31,6 +31,7 @@ pip3 install -r .\requirements.txt
 ```
 
 Additionally, you may also need to install [ffmpeg](https://ffmpeg.org/download.html) and add the `ffmpeg.exe` to the OS PATH variable.
+
 ---
 
 ## Usage
