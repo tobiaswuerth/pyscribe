@@ -37,31 +37,20 @@ Additionally, you may also need to install [ffmpeg](https://ffmpeg.org/download.
 
 Adjust [config.yaml](config.yaml) before running.
 
-### a) Record + Transcribe simultaneously
+### a) Record + Transcribe
 
 ```bash
-py .\main.py
+py .\record_and_transcribe.py
 ```
 
-This starts two processes:
+This starts two subsequent tasks:
 1. Recorder
-   - Records system audio from the configured/selected loopback device
-   - Saves recordings as `.wav` files in segments of configured length (default 5min)
+   - Records system audio from the configured/selected loopback device, until Ctrl+C
+   - Saves recording as `.wav` file
+   - Removes silence (useful for better ASR), if configured
 
 2. Transcriber
-   - Monitors output directory for untranscribed audio files
-   - Processes files and saves transcription as `.wav.txt`
-
-in the end, by default (depending on config), all individual segments of `.wav` and `.txt` files will be combined into one `.wav` and `.txt` file respectively, and the individual segment files are deleted unless otherwise configured.
-
-### Note on Performance
-
-- Recording and transcribing simultaneously works well for most scenarios
-- For highest quality transcription (particularly for longer sessions), consider:
-   1. Recording first (using `py .\record.py`)
-   2. Transcribing afterwards (using `py .\transcribe.py`)
-
-This sequential approach produces better results because the ASR model has more context and complete sentences when processing the entire audio file, resulting in better transcription quality overall.
+   - Processes audio file(s) and saves transcription as `.wav.txt`
 
 ### b) Individual Actions
 
@@ -75,14 +64,7 @@ For transcription only:
 py .\transcribe.py
 ```
 
-For combining of individual files only:
-```bash
-py .\combine.py
-```
-
-
 ## Technical Notes
 
 - The recorder captures system audio output only (loopback devices), not microphone input
 - Transcription quality depends on the Whisper model selected in the config file
-- Recording is saved in WAV format with the device's native sample rate

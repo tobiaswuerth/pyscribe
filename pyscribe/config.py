@@ -5,18 +5,12 @@ from typing import NamedTuple
 class Config(NamedTuple):
     save_path: str
     default_device: str
-    segment_duration: int
+    remove_silence: bool
+
     model: str
     prompt: str
     language: str
     finish_processing_on_exit: bool
-    combine_on_exit: bool
-    remove_after_combine: bool
-    split_on_silence: bool
-    min_silence_duration: float
-    silence_calibration_window: int
-    hardcut_threshold: int
-    consider_noise_silent_percentile: int
 
 
 def load_config() -> Config:
