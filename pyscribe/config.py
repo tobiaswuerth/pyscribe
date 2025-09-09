@@ -10,7 +10,6 @@ class Config(NamedTuple):
     model: str
     prompt: str
     language: str
-    finish_processing_on_exit: bool
 
 
 def load_config() -> Config:

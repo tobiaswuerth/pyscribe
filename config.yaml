@@ -7,4 +7,3 @@ remove_silence: true # if true, will remove silence from recordings
 model: "large-v3" # check https://github.com/openai/whisper for available models
 prompt: "Dies ist eine (schweizer-)deutsche Online-Vorlesung meines Professors. Bitte transkribiere den gesprochenen Inhalt wortgetreu auf Deutsch."
 language: "de"
-finish_processing_on_exit: true # if true, will process all recordings before exiting
