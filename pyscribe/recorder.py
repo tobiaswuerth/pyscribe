@@ -85,33 +85,12 @@ class Recorder:
             print(f"Error in Recorder: {e}")
             traceback.print_exc()
 
-    def finalize_recording(self, wav: wave.Wave_write, filename: str):
-        wav.close()
-        fix_name = filename.replace(".tmp", "")
-        os.rename(filename, fix_name)
-        self.remove_silence(fix_name)
-
-    def remove_silence(self, audio_path: str) -> None:
-        if not config.remove_silence:
-            return
-
-        print(f"Removing silence from: {audio_path} ...")
-        from pydub import AudioSegment
-        from pydub.silence import split_on_silence
-
-        new_path = audio_path.replace(".wav", ".silence_removed.wav")
-        sound = AudioSegment.from_file(audio_path, format="wav")
-        chunks = split_on_silence(sound, silence_thresh=-40)
-        combined = AudioSegment.empty()
-        for chunk in chunks:
-            combined += chunk
-        combined.export(new_path, format="wav")
-        os.rename(audio_path, audio_path + ".backup")
-        print(f"Silence removed audio saved to: {new_path}")
-
     def run(self):
         device = self.prepare_recording_device()
+
         wav, filename = self.prepare_wav(device)
         self.record(wav, device)
-        self.finalize_recording(wav, filename)
-        print("Recorder process finished.")
+        wav.close()
+
+        fix_name = filename.replace(".tmp", "")
+        os.rename(filename, fix_name)

@@ -3,6 +3,8 @@ import torch
 import whisper
 from whisper import Whisper
 import os
+from pydub import AudioSegment
+from pydub.silence import split_on_silence
 
 from .config import config
 
@@ -23,7 +25,26 @@ class Transcriber:
         print(f"Model loaded on device: {device}")
         return model, device
 
-    def transcribe_file(self, audio_path, model, device) -> str:
+    def remove_silence(self, audio_path: str) -> str:
+        if not config.remove_silence:
+            return audio_path
+
+        print(f"Removing silence from: {audio_path} ...")
+        new_path = audio_path.replace(".wav", ".silence_removed.wav")
+        sound = AudioSegment.from_file(audio_path, format="wav")
+        chunks = split_on_silence(sound, silence_thresh=-40)
+        
+        combined = AudioSegment.empty()
+        for chunk in chunks:
+            combined += chunk
+        
+        combined.export(new_path, format="wav")
+        os.rename(audio_path, audio_path + ".backup")
+
+        print(f"Silence removed audio saved to: {new_path}")
+        return new_path
+
+    def transcribe_file(self, audio_path, model:Whisper, device) -> str:
         print(f"Transcribing file: {audio_path} ...")
         result = model.transcribe(
             audio_path,
@@ -53,6 +74,7 @@ class Transcriber:
 
             for audio_file in todo:
                 audio_path = os.path.join(config.save_path, audio_file)
+                audio_path = self.remove_silence(audio_path)
                 transcription = self.transcribe_file(audio_path, model, device)
                 self.save_transcription(audio_path, transcription)
 
